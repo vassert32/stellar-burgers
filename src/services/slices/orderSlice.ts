@@ -7,15 +7,18 @@ export interface OrderState {
   order: TOrder | null;
   error: string | null;
 }
+
 const initialState: OrderState = {
   isLoading: false,
   order: null,
   error: null
 };
+
 export const getOrderThunk = createAsyncThunk(
   'feed/getOrder',
   (number: number) => getOrderByNumberApi(number)
 );
+
 const orderSlice = createSlice({
   name: 'order',
   initialState,
@@ -31,7 +34,7 @@ const orderSlice = createSlice({
       })
       .addCase(getOrderThunk.rejected, (state, { error }) => {
         state.isLoading = false;
-        state.error = error.message ?? 'Ошибка при получении заказа';
+        state.error = error.message as string;
       })
       .addCase(getOrderThunk.fulfilled, (state, { payload }) => {
         state.isLoading = false;
@@ -43,4 +46,5 @@ const orderSlice = createSlice({
 
 export { initialState as orderInitialState };
 export const { getOrderSelector } = orderSlice.selectors;
+
 export default orderSlice.reducer;

@@ -14,14 +14,14 @@ import { TUser } from '@utils-types';
 import { deleteCookie, setCookie } from '../../utils/cookie';
 
 export interface UserState {
-  isLoading: boolean;
+  isLoadong: boolean;
   user: TUser | null;
   isAuthorized: boolean;
   error: string | null;
 }
 
 const initialState: UserState = {
-  isLoading: false,
+  isLoadong: false,
   user: null,
   isAuthorized: false,
   error: null
@@ -73,107 +73,101 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginUserThunk.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadong = true;
         state.error = null;
       })
       .addCase(loginUserThunk.rejected, (state, { error }) => {
-        state.isLoading = false;
+        state.isLoadong = false;
         state.error = error.message as string;
       })
       .addCase(loginUserThunk.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
+        state.isLoadong = false;
         state.error = null;
         state.user = payload.user;
         state.isAuthorized = true;
         setCookie('accessToken', payload.accessToken);
         localStorage.setItem('refreshToken', payload.refreshToken);
       })
-
       .addCase(registerUserThunk.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadong = true;
         state.error = null;
       })
       .addCase(registerUserThunk.rejected, (state, { error }) => {
-        state.isLoading = false;
+        state.isLoadong = false;
         state.error = error.message as string;
       })
       .addCase(registerUserThunk.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
+        state.isLoadong = false;
         state.error = null;
         state.user = payload.user;
         state.isAuthorized = true;
         setCookie('accessToken', payload.accessToken);
         localStorage.setItem('refreshToken', payload.refreshToken);
       })
-
       .addCase(logoutUserThunk.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadong = true;
         state.error = null;
       })
       .addCase(logoutUserThunk.rejected, (state, { error }) => {
-        state.isLoading = false;
+        state.isLoadong = false;
         state.error = error.message as string;
       })
-      .addCase(logoutUserThunk.fulfilled, (state) => {
-        state.isLoading = false;
+      .addCase(logoutUserThunk.fulfilled, (state, { payload }) => {
+        state.isLoadong = false;
         state.error = null;
         state.user = null;
         state.isAuthorized = false;
         deleteCookie('accessToken');
         localStorage.removeItem('refreshToken');
       })
-
       .addCase(updateUserThunk.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadong = true;
         state.error = null;
       })
       .addCase(updateUserThunk.rejected, (state, { error }) => {
-        state.isLoading = false;
+        state.isLoadong = false;
         state.error = error.message as string;
       })
       .addCase(updateUserThunk.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
+        state.isLoadong = false;
         state.error = null;
         state.user = payload.user;
         state.isAuthorized = true;
       })
-
       .addCase(forgotPasswordThunk.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadong = true;
         state.error = null;
       })
       .addCase(forgotPasswordThunk.rejected, (state, { error }) => {
-        state.isLoading = false;
+        state.isLoadong = false;
         state.error = error.message as string;
       })
       .addCase(forgotPasswordThunk.fulfilled, (state) => {
-        state.isLoading = false;
+        state.isLoadong = false;
         state.error = null;
       })
-
       .addCase(resetPasswordThunk.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadong = true;
         state.error = null;
       })
       .addCase(resetPasswordThunk.rejected, (state, { error }) => {
-        state.isLoading = false;
+        state.isLoadong = false;
         state.error = error.message as string;
       })
       .addCase(resetPasswordThunk.fulfilled, (state) => {
-        state.isLoading = false;
+        state.isLoadong = false;
         state.error = null;
       })
-
       .addCase(getUserThunk.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadong = true;
         state.error = null;
       })
       .addCase(getUserThunk.rejected, (state, { error }) => {
-        state.isLoading = false;
+        state.isLoadong = false;
         state.error = error.message as string;
       })
       .addCase(getUserThunk.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
+        state.isLoadong = false;
         state.error = null;
         state.isAuthorized = true;
         state.user = payload.user;
@@ -183,7 +177,6 @@ export const userSlice = createSlice({
 
 export { initialState as userInitialState };
 export const { clearUserError } = userSlice.actions;
-
 export const {
   getUserStateSelector,
   getUserSelector,

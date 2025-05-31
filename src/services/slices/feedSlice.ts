@@ -19,7 +19,11 @@ const initialState: feedState = {
 };
 
 export const getFeedThunk = createAsyncThunk('feed/getFeed', getFeedsApi);
-export const getOrdersThunk = createAsyncThunk('feed/getProfileFeed', getOrdersApi);
+
+export const getOrdersThunk = createAsyncThunk(
+  'feed/getProfileFeed',
+  getOrdersApi
+);
 
 const feedSlice = createSlice({
   name: 'feed',
@@ -37,7 +41,7 @@ const feedSlice = createSlice({
       })
       .addCase(getFeedThunk.rejected, (state, { error }) => {
         state.isLoading = false;
-        state.error = error.message ?? 'Ошибка при загрузке ленты';
+        state.error = error.message as string;
       })
       .addCase(getFeedThunk.fulfilled, (state, { payload }) => {
         state.isLoading = false;
@@ -46,14 +50,13 @@ const feedSlice = createSlice({
         state.total = payload.total;
         state.totalToday = payload.totalToday;
       })
-
       .addCase(getOrdersThunk.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
       .addCase(getOrdersThunk.rejected, (state, { error }) => {
         state.isLoading = false;
-        state.error = error.message ?? 'Ошибка при загрузке заказов';
+        state.error = error.message as string;
       })
       .addCase(getOrdersThunk.fulfilled, (state, { payload }) => {
         state.isLoading = false;
@@ -65,4 +68,5 @@ const feedSlice = createSlice({
 
 export { initialState as feedInitialState };
 export const { getFeedStateSelector, getOrdersSelector } = feedSlice.selectors;
+
 export default feedSlice.reducer;

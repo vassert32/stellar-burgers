@@ -1,39 +1,40 @@
-import { FC, SyntheticEvent, useState, useEffect } from 'react';
+import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
-import { useDispatch as useAppDispatch, useSelector as useAppSelector } from '@store';
+import { useDispatch, useSelector } from '@store';
 import {
-  registerUserThunk as signUpThunk,
-  clearUserError as resetUserError,
-  getUserErrorSelector as selectError
+  clearUserError,
+  registerUserThunk,
+  getUserErrorSelector
 } from '@slices';
+import { error } from 'console';
 
 export const Register: FC = () => {
-  const send = useAppDispatch();
-  const errorMessage = useAppSelector(selectError);
+  const dispatch = useDispatch();
+  const error = useSelector(getUserErrorSelector);
+  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const [nameValue, updateName] = useState('');
-  const [emailValue, updateEmail] = useState('');
-  const [passValue, updatePassword] = useState('');
-
-  const onSubmit = (evt: SyntheticEvent) => {
-    evt.preventDefault();
-    send(signUpThunk({ email: emailValue, name: nameValue, password: passValue }));
+  const handleSubmit = (e: SyntheticEvent) => {
+    e.preventDefault();
+    const name = userName;
+    dispatch(registerUserThunk({ email, name, password }));
   };
 
   useEffect(() => {
-    send(resetUserError());
-  }, [send]);
+    dispatch(clearUserError());
+  });
 
   return (
     <RegisterUI
-      errorText={errorMessage?.toString()}
-      email={emailValue}
-      userName={nameValue}
-      password={passValue}
-      setEmail={updateEmail}
-      setPassword={updatePassword}
-      setUserName={updateName}
-      handleSubmit={onSubmit}
+      errorText={error?.toString()}
+      email={email}
+      userName={userName}
+      password={password}
+      setEmail={setEmail}
+      setPassword={setPassword}
+      setUserName={setUserName}
+      handleSubmit={handleSubmit}
     />
   );
 };

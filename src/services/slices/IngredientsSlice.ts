@@ -35,20 +35,18 @@ const ingredientsSlice = createSlice({
       })
       .addCase(getIngredientsThunk.rejected, (state, { error }) => {
         state.isLoading = false;
-        state.error = error.message ?? 'Ошибка при загрузке ингредиентов';
+        state.error = error.message as string;
       })
       .addCase(getIngredientsThunk.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.ingredients = payload;
         state.error = null;
+        state.ingredients = payload;
       });
   }
 });
 
 export { initialState as ingredientsInitialState };
-export const {
-  getIngredientsStateSelector,
-  getIngredientsSelector
-} = ingredientsSlice.selectors;
+export const { getIngredientsStateSelector, getIngredientsSelector } =
+  ingredientsSlice.selectors;
 
 export default ingredientsSlice.reducer;

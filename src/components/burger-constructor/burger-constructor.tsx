@@ -1,66 +1,63 @@
 import { FC, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from '@store';
-import { BurgerConstructorUI } from '@ui';
 import { TConstructorIngredient } from '@utils-types';
+import { BurgerConstructorUI } from '@ui';
+import { useDispatch, useSelector } from '@store';
+import { useNavigate } from 'react-router-dom';
 import {
-  sendOrderThunk,
   setOrderRequest,
+  sendOrderThunk,
   setNullOrderModalData,
-  getConstructorSelector,
-  isAuthorizedSelector
+  isAuthorizedSelector,
+  getConstructorSelector
 } from '@slices';
 
 export const BurgerConstructor: FC = () => {
-  const router = useNavigate();
-  const dispatchAction = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const constructorState = useSelector(getConstructorSelector);
+  const isAuthorized = useSelector(isAuthorizedSelector);
 
-  const {
-    constructorItems: selectedItems,
-    orderModalData: orderInfo,
-    orderRequest: isRequestInProgress
-  } = useSelector(getConstructorSelector);
+  const constructorItems = constructorState.constructorItems;
+  const orderRequest = constructorState.orderRequest;
 
-  const userHasAccess = useSelector(isAuthorizedSelector);
+  const orderModalData = constructorState.orderModalData;
 
-  const handleOrder = () => {
-    if (!selectedItems.bun) return;
+  const onOrderClick = () => {
+    if (constructorItems.bun && !isAuthorized) navigate('/login');
+    if (constructorItems.bun && isAuthorized) {
+      dispatch(setOrderRequest(true));
 
-    if (!userHasAccess) {
-      router('/login');
-      return;
+      const bunId = constructorItems.bun._id;
+      const ingredientsIds = constructorItems.ingredients.map(
+        (ingredient) => ingredient._id
+      );
+      const order = [bunId, ...ingredientsIds, bunId];
+      dispatch(sendOrderThunk(order));
     }
-
-    dispatchAction(setOrderRequest(true));
-
-    const bunId = selectedItems.bun._id;
-    const payload = [bunId, ...selectedItems.ingredients.map(i => i._id), bunId];
-
-    dispatchAction(sendOrderThunk(payload));
+  };
+  const closeOrderModal = () => {
+    dispatch(setOrderRequest(false));
+    dispatch(setNullOrderModalData());
   };
 
-  const dismissModal = () => {
-    dispatchAction(setOrderRequest(false));
-    dispatchAction(setNullOrderModalData());
-  };
-
-  const totalPrice = useMemo(() => {
-    const bunTotal = selectedItems.bun ? selectedItems.bun.price * 2 : 0;
-    const ingredientsSum = selectedItems.ingredients.reduce(
-      (sum, ingredient) => sum + ingredient.price,
-      0
-    );
-    return bunTotal + ingredientsSum;
-  }, [selectedItems]);
+  const price = useMemo(
+    () =>
+      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
+      constructorItems.ingredients.reduce(
+        (s: number, v: TConstructorIngredient) => s + v.price,
+        0
+      ),
+    [constructorItems]
+  );
 
   return (
     <BurgerConstructorUI
-      price={totalPrice}
-      orderRequest={isRequestInProgress}
-      constructorItems={selectedItems}
-      orderModalData={orderInfo}
-      onOrderClick={handleOrder}
-      closeOrderModal={dismissModal}
+      price={price}
+      orderRequest={orderRequest}
+      constructorItems={constructorItems}
+      orderModalData={orderModalData}
+      onOrderClick={onOrderClick}
+      closeOrderModal={closeOrderModal}
     />
   );
 };

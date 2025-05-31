@@ -1,11 +1,17 @@
-import { defineConfig } from 'cypress';
+import { defineConfig } from "cypress";
 
 export default defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:3434',
-    setupNodeEvents(eventRegistrar, currentConfig) {
-      // можно зарегистрировать обработчики событий, если нужно
-      return currentConfig;
-    }
-  }
+    baseUrl: "http://localhost:5000",
+    setupNodeEvents(on, config) {
+      // implement node event listeners here
+    },
+  },
+
+  component: {
+    devServer: {
+      framework: "react",
+      bundler: "webpack",
+    },
+  },
 });

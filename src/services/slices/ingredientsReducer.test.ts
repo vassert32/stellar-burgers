@@ -1,6 +1,6 @@
-import { describe, test, expect } from '@jest/globals';
+import { expect, test, describe } from '@jest/globals';
 import { configureStore } from '@reduxjs/toolkit';
-import ingredientsReducer, { getIngredientsThunk } from './IngredientsSlice';
+import ingredientsReducer, { getIngredientsThunk } from './ingredientsSlice';
 
 const setupStore = () =>
   configureStore({
@@ -10,31 +10,26 @@ const setupStore = () =>
   });
 
 describe('Тесты экшенов ингредиентов', () => {
-  describe('Получение ингредиентов', () => {
-    test('pending — ожидание запроса', () => {
+  describe('Тесты экшена получения ингридиентов', () => {
+    test('Тест экшена ожидания ответ после запроса ингредиентов', () => {
       const store = setupStore();
       store.dispatch({ type: getIngredientsThunk.pending.type });
-
       const state = store.getState();
-      expect(state.ingredients.isLoading).toBe(true);
+      expect(state.ingredients.isLoading).toBeTruthy();
       expect(state.ingredients.error).toBeNull();
     });
-
-    test('rejected — ошибка при запросе', () => {
+    test('Тест экшена ошибки после запроса ингредиентов', () => {
       const store = setupStore();
-      const errorMsg = 'mocked error';
-
+      const error = 'mocked error';
       store.dispatch({
         type: getIngredientsThunk.rejected.type,
-        error: { message: errorMsg }
+        error: { message: error }
       });
-
       const state = store.getState();
-      expect(state.ingredients.isLoading).toBe(false);
-      expect(state.ingredients.error).toBe(errorMsg);
+      expect(state.ingredients.isLoading).toBeFalsy();
+      expect(state.ingredients.error).toBe(error);
     });
-
-    test('fulfilled — успешный ответ', () => {
+    test('Тест экшена успешного ответа получения ингредиентов', () => {
       const mockedPayload = {
         _id: '643d69a5c3f7b9001cfa093c',
         name: 'Краторная булка N-200i',
@@ -48,15 +43,13 @@ describe('Тесты экшенов ингредиентов', () => {
         image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
         image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png'
       };
-
       const store = setupStore();
       store.dispatch({
         type: getIngredientsThunk.fulfilled.type,
         payload: mockedPayload
       });
-
       const state = store.getState();
-      expect(state.ingredients.isLoading).toBe(false);
+      expect(state.ingredients.isLoading).toBeFalsy();
       expect(state.ingredients.error).toBeNull();
       expect(state.ingredients.ingredients).toEqual(mockedPayload);
     });

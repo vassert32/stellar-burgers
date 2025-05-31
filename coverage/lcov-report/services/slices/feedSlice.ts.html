@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>68/68</span>
+                <span class='fraction'>72/72</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.77% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/9</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>68/68</span>
+                <span class='fraction'>72/72</span>
             </div>
         
             
@@ -131,7 +131,11 @@
 <a name='L66'></a><a href='#L66'>66</a>
 <a name='L67'></a><a href='#L67'>67</a>
 <a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -158,6 +162,25 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -176,24 +199,9 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -220,7 +228,11 @@ const initialState: feedState = {
 };
 &nbsp;
 export const getFeedThunk = createAsyncThunk('feed/getFeed', getFeedsApi);
-export const getOrdersThunk = createAsyncThunk('feed/getProfileFeed', getOrdersApi);
+&nbsp;
+export const getOrdersThunk = createAsyncThunk(
+  'feed/getProfileFeed',
+  getOrdersApi
+);
 &nbsp;
 const feedSlice = createSlice({
   name: 'feed',
@@ -238,7 +250,7 @@ const feedSlice = createSlice({
       })
       .addCase(getFeedThunk.rejected, (state, { error }) =&gt; {
         state.isLoading = false;
-        state.error = error.message<span class="branch-0 cbranch-no" title="branch not covered" > ?? 'Ошибка при загрузке ленты';</span>
+        state.error = error.message as string;
       })
       .addCase(getFeedThunk.fulfilled, (state, { payload }) =&gt; {
         state.isLoading = false;
@@ -247,14 +259,13 @@ const feedSlice = createSlice({
         state.total = payload.total;
         state.totalToday = payload.totalToday;
       })
-&nbsp;
       .addCase(getOrdersThunk.pending, (state) =&gt; {
         state.isLoading = true;
         state.error = null;
       })
       .addCase(getOrdersThunk.rejected, (state, { error }) =&gt; {
         state.isLoading = false;
-        state.error = error.message<span class="branch-0 cbranch-no" title="branch not covered" > ?? 'Ошибка при загрузке заказов';</span>
+        state.error = error.message as string;
       })
       .addCase(getOrdersThunk.fulfilled, (state, { payload }) =&gt; {
         state.isLoading = false;
@@ -266,6 +277,7 @@ const feedSlice = createSlice({
 &nbsp;
 export { initialState as feedInitialState };
 export const { getFeedStateSelector, getOrdersSelector } = feedSlice.selectors;
+&nbsp;
 export default feedSlice.reducer;
 &nbsp;</pre></td></tr></table></pre>
 
@@ -274,7 +286,7 @@ export default feedSlice.reducer;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-28T09:10:56.108Z
+                at 2025-05-28T12:13:58.776Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

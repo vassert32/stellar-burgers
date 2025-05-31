@@ -3,49 +3,50 @@ import { useNavigate } from 'react-router-dom';
 
 import { ResetPasswordUI } from '@ui-pages';
 
-import { useDispatch as useAppDispatch, useSelector as useAppSelector } from '@store';
+import { useSelector, useDispatch } from '@store';
 import {
-  resetPasswordThunk as submitReset,
-  getUserErrorSelector as selectError,
-  clearUserError as resetError
+  resetPasswordThunk,
+  getUserErrorSelector,
+  clearUserError
 } from '@slices';
 
 export const ResetPassword: FC = () => {
-  const nav = useNavigate();
-  const send = useAppDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [password, setPassword] = useState('');
+  const [token, setToken] = useState('');
+  const error = useSelector(getUserErrorSelector) as string;
 
-  const [newPassword, updatePassword] = useState('');
-  const [codeToken, updateToken] = useState('');
-  const errorMessage = useAppSelector(selectError) as string;
-
-  const onResetSubmit = (evt: SyntheticEvent) => {
-    evt.preventDefault();
-    send(submitReset({ password: newPassword, token: codeToken })).then((res) => {
-      if (res.payload) {
-        localStorage.removeItem('resetPassword');
-        nav('/login');
+  const handleSubmit = (e: SyntheticEvent) => {
+    e.preventDefault();
+    dispatch(resetPasswordThunk({ password: password, token: token })).then(
+      (data) => {
+        if (data.payload) {
+          localStorage.removeItem('resetPassword');
+          navigate('/login');
+        }
       }
-    });
+    );
   };
 
   useEffect(() => {
-    send(resetError());
-  }, [send]);
+    dispatch(clearUserError());
+  }, [dispatch]);
 
   useEffect(() => {
     if (!localStorage.getItem('resetPassword')) {
-      nav('/forgot-password', { replace: true });
+      navigate('/forgot-password', { replace: true });
     }
-  }, [nav]);
+  }, [navigate]);
 
   return (
     <ResetPasswordUI
-      errorText={errorMessage}
-      password={newPassword}
-      token={codeToken}
-      setPassword={updatePassword}
-      setToken={updateToken}
-      handleSubmit={onResetSubmit}
+      errorText={error}
+      password={password}
+      token={token}
+      setPassword={setPassword}
+      setToken={setToken}
+      handleSubmit={handleSubmit}
     />
   );
 };

@@ -6,7 +6,7 @@ import constructorReducer, {
   moveIngredientUp,
   constructorInitialState
 } from './constructorSlice';
-import type { ConstructorSliceState as constructorState } from './constructorSlice';
+import type { constructorState } from './constructorSlice';
 import { nanoid } from '@reduxjs/toolkit';
 import { TConstructorIngredient } from '@utils-types';
 
@@ -89,7 +89,7 @@ describe('Тест экшенов конструктора', () => {
       startState,
       addIngredient(ingredient)
     );
-
+    
     expect(nanoid).toHaveBeenCalled();
     expect(newState).toEqual(endState);
   });
@@ -125,7 +125,7 @@ describe('Тест экшенов конструктора', () => {
         startState,
         moveIngredientUp(ingredientId)
       );
-
+      
       expect(newState).toEqual(endState);
     });
     test('Тест экшена перемещения ингредиента вниз', () => {
@@ -143,7 +143,7 @@ describe('Тест экшенов конструктора', () => {
         startState,
         moveIngredientDown(ingredientId)
       );
-
+      
       expect(newState).toEqual(endState);
     });
   });
