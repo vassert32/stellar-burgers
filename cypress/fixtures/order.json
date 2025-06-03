@@ -1,6 +1,6 @@
 {
   "success": true,
-  "name": "Краторный био-марсианский бургер",
+  "name": "Экзобургер 'Вологда'",
   "order": {
     "ingredients": [
       {
@@ -18,17 +18,31 @@
         "__v": 0
       },
       {
-        "_id": "643d69a5c3f7b9001cfa0941",
-        "name": "Биокотлета из марсианской Магнолии",
+        "_id": "643d69a5c3f7b9001cfa0940",
+        "name": "Говяжий метеорит (отбивная)",
         "type": "main",
-        "proteins": 420,
-        "fat": 142,
-        "carbohydrates": 242,
-        "calories": 4242,
-        "price": 424,
-        "image": "https://code.s3.yandex.net/react/code/meat-01.png",
-        "image_mobile": "https://code.s3.yandex.net/react/code/meat-01-mobile.png",
-        "image_large": "https://code.s3.yandex.net/react/code/meat-01-large.png",
+        "proteins": 800,
+        "fat": 800,
+        "carbohydrates": 300,
+        "calories": 2674,
+        "price": 3000,
+        "image": "https://code.s3.yandex.net/react/code/meat-04.png",
+        "image_mobile": "https://code.s3.yandex.net/react/code/meat-04-mobile.png",
+        "image_large": "https://code.s3.yandex.net/react/code/meat-04-large.png",
+        "__v": 0
+      },
+      {
+        "_id": "643d69a5c3f7b9001cfa0945",
+        "name": "Соус с шипами Антарианского плоскоходца",
+        "type": "sauce",
+        "proteins": 101,
+        "fat": 99,
+        "carbohydrates": 100,
+        "calories": 100,
+        "price": 88,
+        "image": "https://code.s3.yandex.net/react/code/sauce-01.png",
+        "image_mobile": "https://code.s3.yandex.net/react/code/sauce-01-mobile.png",
+        "image_large": "https://code.s3.yandex.net/react/code/sauce-01-large.png",
         "__v": 0
       },
       {
@@ -46,18 +60,18 @@
         "__v": 0
       }
     ],
-    "_id": "66154cd097ede0001d064e7d",
+    "_id": "66533de155e6b9001cfa2025",
     "owner": {
-      "name": "Georg Shakillow",
-      "email": "lleksiv@gmail.com",
-      "createdAt": "2024-03-12T18:33:38.905Z",
-      "updatedAt": "2024-04-05T09:42:31.417Z"
+      "email": "kozinak@yandex.go",
+      "name": "Vologda",
+      "createdAt": "2024-05-25T18:30:00.000Z",
+      "updatedAt": "2024-05-26T11:20:00.000Z"
     },
     "status": "done",
-    "name": "Краторный био-марсианский бургер",
-    "createdAt": "2024-04-09T14:12:32.173Z",
-    "updatedAt": "2024-04-09T14:12:32.790Z",
-    "number": 37865,
-    "price": 2934
+    "name": "Экзобургер 'Вологда'",
+    "createdAt": "2024-05-27T09:00:00.000Z",
+    "updatedAt": "2024-05-27T09:05:00.000Z",
+    "number": 99234,
+    "price": 4343
   }
 }

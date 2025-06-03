@@ -48,9 +48,9 @@ module.exports = {
     ]
   },
   plugins: [
-    new ESLintPlugin({
-      extensions: ['.js', '.jsx', '.ts', '.tsx']
-    }),
+    // new ESLintPlugin({
+    //   extensions: ['.js', '.jsx', '.ts', '.tsx']
+    // }),
     new HtmlWebpackPlugin({
       template: './public/index.html'
     }),
@@ -78,8 +78,6 @@ module.exports = {
       '@utils-types': path.resolve(__dirname, './src/utils/types'),
       '@api': path.resolve(__dirname, './src/utils/burger-api.ts'),
       '@slices': path.resolve(__dirname, './src/services/slices'),
-      '@hooks': path.resolve(__dirname, './src/hooks'),
-      '@store': path.resolve(__dirname, './src/services/store.ts'),
       '@selectors': path.resolve(__dirname, './src/services/selectors')
     }
   },
@@ -91,6 +89,6 @@ module.exports = {
     static: path.join(__dirname, './dist'),
     compress: true,
     historyApiFallback: true,
-    port: 5000
+    port: 4000
   }
 };

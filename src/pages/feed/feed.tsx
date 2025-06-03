@@ -1,25 +1,27 @@
+import React, { FC, useEffect } from 'react';
 import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
-import { TOrder } from '@utils-types';
-import { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from '@store';
-import { getFeedThunk, getOrdersSelector } from '@slices';
+import { useDispatch, useSelector, RootState } from '../../services/store';
+import { loadFeed } from '../../services/slices/slice-feeds';
 
 export const Feed: FC = () => {
   const dispatch = useDispatch();
-  const orders: TOrder[] = useSelector(getOrdersSelector);
-
-  const handleGetFeeds = () => {
-    dispatch(getFeedThunk());
-  };
+  const feedState = useSelector((state: RootState) => state.feed);
+  const { list, isFetching, failReason } = feedState;
 
   useEffect(() => {
-    handleGetFeeds();
+    dispatch(loadFeed());
   }, [dispatch]);
 
-  if (!orders.length) {
-    return <Preloader />;
+  if (failReason) {
+    return (
+      <p className='text text_type_main-default'>
+        Произошла ошибка: {failReason}
+      </p>
+    );
   }
 
-  return <FeedUI orders={orders} handleGetFeeds={handleGetFeeds} />;
+  return (
+    <FeedUI orders={list} handleGetFeeds={() => dispatch(loadFeed())} />
+  );
 };

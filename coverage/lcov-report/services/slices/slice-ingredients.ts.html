@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for services/slices/ingredientsSlice.ts</title>
+    <title>Code coverage report for services/slices/slice-ingredients.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">services/slices</a> ingredientsSlice.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">services/slices</a> slice-ingredients.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -32,14 +32,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/3</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
@@ -114,17 +114,7 @@
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -147,17 +137,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -167,66 +148,82 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getIngredientsApi } from '@api';
-import { TIngredient } from '@utils-types';
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { getIngredientsApi } from '../../utils/burger-api';
+import { TIngredient } from '../../utils/types';
 &nbsp;
-export interface ingredientsState {
+export type TIngredientsState = {
+  data: TIngredient[];
   isLoading: boolean;
-  ingredients: TIngredient[];
-  error: string | null;
-}
-&nbsp;
-const initialState: ingredientsState = {
-  isLoading: false,
-  ingredients: [],
-  error: null
+  errorMessage: string | null;
 };
 &nbsp;
-export const getIngredientsThunk = createAsyncThunk(
-  'ingredients/get',
-  getIngredientsApi
-);
+const defaultState: TIngredientsState = {
+  data: [],
+  isLoading: false,
+  errorMessage: null
+};
+&nbsp;
+export const loadIngredients = createAsyncThunk&lt;
+  TIngredient[],
+  void,
+  { rejectValue: string }
+&gt;('ingredients/loadAll', async (_, { rejectWithValue }) =&gt; {
+  try {
+    const result = await getIngredientsApi();
+    return result;
+  } catch (e: any) {
+    return rejectWithValue(e.message);
+  }
+});
 &nbsp;
 const ingredientsSlice = createSlice({
   name: 'ingredients',
-  initialState,
+  initialState: defaultState,
   reducers: {},
-  selectors: {
-    getIngredientsStateSelector: <span class="fstat-no" title="function not covered" >(state) =&gt; state,</span>
-    getIngredientsSelector: <span class="fstat-no" title="function not covered" >(state) =&gt; state.</span>ingredients
-  },
   extraReducers: (builder) =&gt; {
     builder
-      .addCase(getIngredientsThunk.pending, (state) =&gt; {
+      .addCase(loadIngredients.pending, (state) =&gt; {
         state.isLoading = true;
-        state.error = null;
+        state.errorMessage = null;
       })
-      .addCase(getIngredientsThunk.rejected, (state, { error }) =&gt; {
+      .addCase(loadIngredients.fulfilled, (state, action: PayloadAction&lt;TIngredient[]&gt;) =&gt; {
+        state.data = action.payload;
         state.isLoading = false;
-        state.error = error.message as string;
       })
-      .addCase(getIngredientsThunk.fulfilled, (state, { payload }) =&gt; {
+      .addCase(loadIngredients.rejected, (state, action) =&gt; {
         state.isLoading = false;
-        state.error = null;
-        state.ingredients = payload;
+        state.errorMessage = action.payload ?? 'Ошибка загрузки ингредиентов';
       });
   }
 });
 &nbsp;
-export { initialState as ingredientsInitialState };
-export const { getIngredientsStateSelector, getIngredientsSelector } =
-  ingredientsSlice.selectors;
-&nbsp;
-export default ingredientsSlice.reducer;
-&nbsp;</pre></td></tr></table></pre>
+export const ingredientsReducer = ingredientsSlice.reducer;
+export { defaultState };</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-28T12:13:58.776Z
+                at 2025-05-28T08:54:50.766Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

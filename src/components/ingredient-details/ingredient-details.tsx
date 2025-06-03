@@ -1,21 +1,36 @@
-import { FC, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector, RootState } from '../../services/store';
+import { loadIngredients } from '../../services/slices/slice-ingredients';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
-import { useSelector } from '@store';
-import { getIngredientsSelector } from '@slices';
-import { useParams } from 'react-router-dom';
 
 export const IngredientDetails: FC = () => {
-  const ingridientId = useParams().id;
-
-  const ingredients = useSelector(getIngredientsSelector);
-  const ingredientData = ingredients.find(
-    (ingredient) => ingredient._id === ingridientId
+  const { id } = useParams<{ id: string }>();
+  const dispatch = useDispatch();
+  const { data: ingredients, isLoading, errorMessage } = useSelector(
+    (state: RootState) => state.ingredients
   );
 
-  if (!ingredientData) {
+  useEffect(() => {
+    if (ingredients.length === 0) {
+      dispatch(loadIngredients());
+    }
+  }, [dispatch, ingredients.length]);
+
+  if (isLoading || ingredients.length === 0) {
     return <Preloader />;
   }
 
-  return <IngredientDetailsUI ingredientData={ingredientData} />;
+  if (errorMessage) {
+    return <p className='text text_type_main-default'>Ошибка: {errorMessage}</p>;
+  }
+
+  const selectedIngredient = ingredients.find((el) => el._id === id);
+
+  if (!selectedIngredient) {
+    return <p className='text text_type_main-default'>Ингредиент не найден</p>;
+  }
+
+  return <IngredientDetailsUI ingredientData={selectedIngredient} />;
 };

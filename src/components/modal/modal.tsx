@@ -1,37 +1,28 @@
-import { FC, memo, useEffect, useState } from 'react';
+import { FC, useEffect, memo } from 'react';
 import ReactDOM from 'react-dom';
-
-import { TModalProps } from './type';
 import { ModalUI } from '@ui';
-import { useLocation } from 'react-router-dom';
+import { TModalProps } from './type';
 
-const modalRoot = document.getElementById('modals');
+const rootElement = document.getElementById('modals');
 
 export const Modal: FC<TModalProps> = memo(({ title, onClose, children }) => {
-  const location = useLocation();
-  const [titleStyle, setTitleStyle] = useState('text_type_main-large');
-
   useEffect(() => {
-    if (/feed|profile/i.test(location.pathname)) {
-      setTitleStyle('text_type_digits-default');
-    }
-  });
-
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      e.key === 'Escape' && onClose();
+    const onEsc = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
     };
 
-    document.addEventListener('keydown', handleEsc);
+    window.addEventListener('keydown', onEsc);
     return () => {
-      document.removeEventListener('keydown', handleEsc);
+      window.removeEventListener('keydown', onEsc);
     };
   }, [onClose]);
 
   return ReactDOM.createPortal(
-    <ModalUI title={title} onClose={onClose} titleStyle={titleStyle}>
+    <ModalUI title={title} onClose={onClose}>
       {children}
     </ModalUI>,
-    modalRoot as HTMLDivElement
+    rootElement as HTMLDivElement
   );
 });
