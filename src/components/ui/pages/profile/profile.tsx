@@ -1,5 +1,4 @@
 import { FC } from 'react';
-
 import { Button, Input } from '@zlden/react-developer-burger-ui-components';
 import styles from './profile.module.css';
 import commonStyles from '../common.module.css';
@@ -14,78 +13,86 @@ export const ProfileUI: FC<ProfileUIProps> = ({
   handleSubmit,
   handleCancel,
   handleInputChange
-}) => (
-  <main className={`${commonStyles.container}`}>
-    <div className={`mt-30 mr-15 ${styles.menu}`}>
-      <ProfileMenu />
-    </div>
-    <form
-      className={`mt-30 ${styles.form} ${commonStyles.form}`}
-      onSubmit={handleSubmit}
-    >
-      <>
+}) => {
+  return (
+    <main className={commonStyles.container}>
+      <div className={`mt-30 mr-15 ${styles.menu}`}>
+        <ProfileMenu />
+      </div>
+      <form
+        onSubmit={handleSubmit}
+        className={`mt-30 ${styles.form} ${commonStyles.form}`}
+      >
         <div className='pb-6'>
           <Input
-            type={'text'}
-            placeholder={'Имя'}
-            onChange={handleInputChange}
+            name='name'
+            type='text'
+            placeholder='Имя'
             value={formValue.name}
-            name={'name'}
+            onChange={handleInputChange}
+            icon='EditIcon'
+            size='default'
             error={false}
-            errorText={''}
-            size={'default'}
-            icon={'EditIcon'}
+            errorText=''
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
           />
         </div>
+
         <div className='pb-6'>
           <Input
-            type={'email'}
-            placeholder={'E-mail'}
-            onChange={handleInputChange}
+            name='email'
+            type='email'
+            placeholder='E-mail'
             value={formValue.email}
-            name={'email'}
+            onChange={handleInputChange}
+            icon='EditIcon'
+            size='default'
             error={false}
-            errorText={''}
-            size={'default'}
-            icon={'EditIcon'}
+            errorText=''
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
           />
         </div>
+
         <div className='pb-6'>
           <Input
-            type={'password'}
-            placeholder={'Пароль'}
-            onChange={handleInputChange}
+            name='password'
+            type='password'
+            placeholder='Пароль'
             value={formValue.password}
-            name={'password'}
+            onChange={handleInputChange}
+            icon='EditIcon'
+            size='default'
             error={false}
-            errorText={''}
-            size={'default'}
-            icon={'EditIcon'}
+            errorText=''
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
           />
         </div>
+
         {isFormChanged && (
           <div className={styles.button}>
             <Button
-              type='secondary'
               htmlType='button'
+              type='secondary'
               size='medium'
               onClick={handleCancel}
             >
               Отменить
             </Button>
-            <Button type='primary' size='medium' htmlType='submit'>
+            <Button htmlType='submit' type='primary' size='medium'>
               Сохранить
             </Button>
           </div>
         )}
-        {updateUserError && (
-          <p
-            className={`${commonStyles.error} pt-5 text text_type_main-default`}
-          >
+
+        {!!updateUserError && (
+          <p className={`${commonStyles.error} pt-5 text text_type_main-default`}>
             {updateUserError}
           </p>
         )}
-      </>
-    </form>
-  </main>
-);
+      </form>
+    </main>
+  );
+};
